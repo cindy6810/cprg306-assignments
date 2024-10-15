@@ -24,6 +24,9 @@ export default function NewItem() {
     setCategory("Produce");
   };
 
+  const incrementQuantity = () => setQuantity(quantity + 1);
+  const decrementQuantity = () => setQuantity(quantity > 1 ? quantity - 1 : 1);
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -41,13 +44,29 @@ export default function NewItem() {
       </div>
 
       <div className="flex items-center space-x-2">
+        <button
+          type="button"
+          onClick={decrementQuantity}
+          className="p-4 border border-gray-600 rounded-lg bg-blue-700 hover:bg-blue-400"
+        >
+          -
+        </button>
+
         <input
           type="number"
           value={quantity}
           onChange={(e) => setQuantity(Number(e.target.value))}
           min="1"
-          className="w-16 p-2 rounded-lg bg-white text-black text-center"
+          className="w-24 p-4 border border-gray-600 rounded-lg bg-white text-black text-center"
         />
+
+        <button
+          type="button"
+          onClick={incrementQuantity}
+          className="p-4 border border-gray-600 rounded-lg bg-blue-400 hover:bg-blue-700"
+        >
+          +
+        </button>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
