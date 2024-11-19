@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from "react";
-import NewItem from "./new-item";
-import ItemList from "./item-list";
-import MealIdeas from "./meal-ideas";
+import { useState, useEffect } from "react";
 import { useUserAuth } from "../_utils/auth-context";
+import ItemList from "./item-list";
+import NewItem from "./new-item";
+import MealIdeas from "./meal-ideas";
 
 export default function Page() {
   const { user } = useUserAuth();
@@ -12,9 +12,13 @@ export default function Page() {
   ]);
   const [selectedItemName, setSelectedItemName] = useState("");
 
-  // If not authenticated, don't render the page
+  useEffect(() => {
+    if (!user) {
+      window.location.href = "/week-9";
+    }
+  }, [user]);
+
   if (!user) {
-    window.location.href = "/week-9";
     return null;
   }
 
@@ -29,9 +33,9 @@ export default function Page() {
     setSelectedItemName(cleanName);
   }
 
-  const handleAddItem = (newItem) => {
+  function handleAddItem(newItem) {
     setItems([...items, newItem]);
-  };
+  }
 
   return (
     <main className="min-h-screen bg-gray-100 p-8">
@@ -40,7 +44,7 @@ export default function Page() {
           <h1 className="text-3xl font-bold text-gray-800">Shopping List</h1>
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-600">
-              Signed in as {user.displayName || user.email}
+              Signed in as {user.email}
             </span>
             <a
               href="/week-9"
